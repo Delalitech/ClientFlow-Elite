@@ -1,949 +1,943 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ClientFlow Elite</title>
-  <meta
-    name="description"
-    content="ClientFlow Elite helps med spas turn more inquiries into booked appointments with faster follow-up and a more polished client journey."
-  />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
-    rel="stylesheet"
-  />
-  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-  <style>
-    :root {
-      --bg: #0b0c10;
-      --bg-soft: #111318;
-      --panel: rgba(255, 255, 255, 0.045);
-      --panel-2: rgba(255, 255, 255, 0.03);
-      --line: rgba(255, 255, 255, 0.09);
-      --line-strong: rgba(255, 255, 255, 0.14);
-      --text: #f4f2ed;
-      --muted: rgba(244, 242, 237, 0.74);
-      --soft: rgba(244, 242, 237, 0.56);
-      --gold: #dbc7a0;
-      --gold-soft: rgba(219, 199, 160, 0.18);
-      --shadow: 0 22px 70px rgba(0, 0, 0, 0.32);
-      --radius-xl: 30px;
-      --radius-lg: 22px;
-      --radius-md: 16px;
-      --max: 1180px;
-    }
-
-    * { box-sizing: border-box; }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      margin: 0;
-      font-family: "Inter", sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(219, 199, 160, 0.12), transparent 24%),
-        radial-gradient(circle at top right, rgba(219, 199, 160, 0.07), transparent 20%),
-        linear-gradient(180deg, #090a0d 0%, #0d1015 100%);
-      color: var(--text);
-      line-height: 1.65;
-      -webkit-font-smoothing: antialiased;
-      text-rendering: optimizeLegibility;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .container {
-      width: min(calc(100% - 2rem), var(--max));
-      margin: 0 auto;
-    }
-
-    .site-header {
-      position: sticky;
-      top: 0;
-      z-index: 60;
-      backdrop-filter: blur(18px);
-      background: rgba(10, 11, 14, 0.68);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    }
-
-    .nav-wrap {
-      min-height: 80px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 1rem;
-    }
-
-    .brand {
-      display: flex;
-      flex-direction: column;
-      gap: 0.12rem;
-    }
-
-    .brand-mark {
-      font-size: 0.78rem;
-      font-weight: 600;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--gold);
-    }
-
-    .brand-name {
-      font-size: 0.98rem;
-      font-weight: 500;
-      color: rgba(244, 242, 237, 0.86);
-      letter-spacing: -0.02em;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-      color: var(--soft);
-      font-size: 0.95rem;
-      font-weight: 500;
-      flex-wrap: wrap;
-    }
-
-    .nav-links a:hover {
-      color: var(--text);
-    }
-
-    .nav-cta,
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 52px;
-      padding: 0.94rem 1.22rem;
-      border-radius: 999px;
-      font-weight: 500;
-      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
-      border: none;
-      cursor: pointer;
-      font: inherit;
-      white-space: nowrap;
-    }
-
-    .nav-cta:hover,
-    .btn:hover {
-      transform: translateY(-1px);
-    }
-
-    .nav-cta,
-    .btn-primary {
-      color: #15120d;
-      background: linear-gradient(135deg, #efe1bd 0%, #cfb181 100%);
-      box-shadow: 0 14px 30px rgba(207, 177, 129, 0.18);
-    }
-
-    .btn-secondary {
-      border: 1px solid var(--line-strong);
-      background: rgba(255, 255, 255, 0.025);
-      color: rgba(244, 242, 237, 0.88);
-    }
-
-    .hero {
-      padding: 6.4rem 0 3rem;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.08fr 0.92fr;
-      gap: 2.5rem;
-      align-items: center;
-    }
-
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      padding: 0.5rem 0.82rem;
-      margin-bottom: 1rem;
-      border-radius: 999px;
-      background: var(--gold-soft);
-      border: 1px solid rgba(219, 199, 160, 0.2);
-      color: var(--gold);
-      font-size: 0.82rem;
-      font-weight: 600;
-      letter-spacing: 0.04em;
-    }
-
-    h1, h2, h3 {
-      margin: 0;
-      color: var(--text);
-    }
-
-    h1 {
-      font-size: clamp(2.35rem, 4.8vw, 4rem);
-      font-weight: 600;
-      line-height: 1.08;
-      letter-spacing: -0.05em;
-      max-width: 12.8ch;
-    }
-
-    h2 {
-      font-size: clamp(1.95rem, 3.8vw, 3rem);
-      font-weight: 600;
-      line-height: 1.1;
-      letter-spacing: -0.04em;
-    }
-
-    h3 {
-      font-size: 1.16rem;
-      font-weight: 500;
-      line-height: 1.3;
-      letter-spacing: -0.02em;
-    }
-
-    p {
-      margin: 0;
-      font-weight: 400;
-      color: var(--muted);
-    }
-
-    .lead {
-      margin-top: 1.25rem;
-      max-width: 60ch;
-      font-size: 1.05rem;
-      color: rgba(244, 242, 237, 0.74);
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.9rem;
-      margin-top: 1.65rem;
-    }
-
-    .hero-supporting-line {
-      margin-top: 1rem;
-      max-width: 64ch;
-      font-size: 0.98rem;
-      color: var(--soft);
-    }
-
-    .quick-stats {
-      margin-top: 2rem;
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.9rem;
-    }
-
-    .stat,
-    .card,
-    .comparison-card,
-    .testimonial-card,
-    .cta-panel,
-    .form-panel,
-    .glass-card,
-    .hero-card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.05), rgba(255,255,255,0.028));
-      border: 1px solid var(--line);
-      box-shadow: var(--shadow);
-    }
-
-    .stat {
-      padding: 1rem 1rem 0.95rem;
-      border-radius: 18px;
-    }
-
-    .stat strong {
-      display: block;
-      margin-bottom: 0.2rem;
-      font-size: 0.98rem;
-      font-weight: 500;
-      color: rgba(244, 242, 237, 0.9);
-    }
-
-    .stat span {
-      font-size: 0.9rem;
-      color: var(--soft);
-    }
-
-    .hero-card {
-      padding: 1.1rem;
-      border-radius: var(--radius-xl);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02)),
-        rgba(17, 19, 25, 0.7);
-    }
-
-    .phone-shell {
-      max-width: 425px;
-      margin-left: auto;
-      padding: 1rem;
-      border-radius: 32px;
-      background: linear-gradient(180deg, rgba(22,24,30,0.95), rgba(12,13,17,0.98));
-      border: 1px solid rgba(255,255,255,0.07);
-    }
-
-    .phone-top {
-      display: flex;
-      justify-content: center;
-      margin-bottom: 0.8rem;
-    }
-
-    .phone-notch {
-      width: 108px;
-      height: 24px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.07);
-    }
-
-    .phone-screen {
-      min-height: 590px;
-      padding: 1rem;
-      border-radius: 24px;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.025), rgba(255,255,255,0.01)),
-        #10131a;
-      border: 1px solid rgba(255,255,255,0.05);
-    }
-
-    .messages-header {
-      text-align: center;
-      margin-bottom: 1rem;
-    }
-
-    .messages-header .label {
-      display: block;
-      font-size: 0.98rem;
-      font-weight: 500;
-      color: rgba(244, 242, 237, 0.92);
-    }
-
-    .messages-header .date {
-      display: block;
-      margin-top: 0.18rem;
-      font-size: 0.88rem;
-      color: var(--soft);
-    }
-
-    .bubble {
-      max-width: 84%;
-      margin-bottom: 0.82rem;
-      padding: 0.92rem 1rem;
-      border-radius: 18px;
-      font-size: 0.95rem;
-      line-height: 1.48;
-      font-weight: 400;
-    }
-
-    .bubble.received {
-      background: rgba(255,255,255,0.058);
-      border: 1px solid rgba(255,255,255,0.05);
-      border-top-left-radius: 8px;
-      color: rgba(244, 242, 237, 0.88);
-    }
-
-    .bubble.sent {
-      margin-left: auto;
-      background: linear-gradient(135deg, #eadab4 0%, #d2b27d 100%);
-      color: #15120d;
-      border-top-right-radius: 8px;
-      font-weight: 500;
-    }
-
-    .section {
-      padding: 2.1rem 0 1.3rem;
-    }
-
-    .section + .section {
-      padding-top: 3.3rem;
-    }
-
-    .section-kicker {
-      margin-bottom: 0.72rem;
-      color: var(--gold);
-      text-transform: uppercase;
-      letter-spacing: 0.16em;
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
-
-    .section-intro {
-      margin-top: 1rem;
-      max-width: 64ch;
-      font-size: 1.02rem;
-      color: var(--muted);
-    }
-
-    .benefit-strip {
-      margin-top: 1.4rem;
-    }
-
-    .glass-card {
-      border-radius: var(--radius-xl);
-      padding: 1rem 1.15rem;
-    }
-
-    .benefit-chip-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.8rem;
-    }
-
-    .benefit-chip {
-      padding: 0.88rem 1rem;
-      text-align: center;
-      border-radius: 18px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.022);
-      color: rgba(244, 242, 237, 0.88);
-      font-weight: 500;
-    }
-
-    .benefits-grid,
-    .comparison-grid,
-    .testimonial-grid,
-    .cta-grid {
-      display: grid;
-      gap: 1rem;
-    }
-
-    .benefits-grid {
-      margin-top: 1.6rem;
-      grid-template-columns: repeat(3, 1fr);
-    }
-
-    .card {
-      padding: 1.4rem;
-      border-radius: var(--radius-lg);
-    }
-
-    .card-number {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      min-width: 46px;
-      min-height: 46px;
-      margin-bottom: 0.95rem;
-      border-radius: 14px;
-      background: rgba(219, 199, 160, 0.12);
-      color: var(--gold);
-      font-size: 0.92rem;
-      font-weight: 600;
-    }
-
-    .card h3 {
-      margin-bottom: 0.55rem;
-    }
-
-    .card p,
-    .comparison-card li,
-    .cta-list li,
-    .testimonial-card blockquote {
-      color: var(--muted);
-    }
-
-    .comparison-grid {
-      margin-top: 1.6rem;
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .comparison-card {
-      padding: 1.45rem;
-      border-radius: var(--radius-lg);
-    }
-
-    .comparison-card.featured {
-      border-color: rgba(219, 199, 160, 0.22);
-      background:
-        linear-gradient(180deg, rgba(219, 199, 160, 0.09), rgba(255,255,255,0.028));
-    }
-
-    .comparison-label {
-      display: inline-block;
-      margin-bottom: 0.75rem;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--gold);
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-    }
-
-    .comparison-card h3 {
-      margin-bottom: 0.78rem;
-    }
-
-    .comparison-card ul,
-    .cta-list {
-      margin: 0;
-      padding-left: 1.1rem;
-    }
-
-    .comparison-card li,
-    .cta-list li {
-      margin-bottom: 0.48rem;
-    }
-
-    .testimonial-grid {
-      margin-top: 1.6rem;
-      grid-template-columns: repeat(2, 1fr);
-    }
-
-    .testimonial-card {
-      padding: 1.45rem;
-      border-radius: var(--radius-lg);
-    }
-
-    .testimonial-card blockquote {
-      margin: 0 0 0.95rem;
-      font-size: 1rem;
-      font-weight: 400;
-    }
-
-    .testimonial-author {
-      color: rgba(244, 242, 237, 0.86);
-      font-weight: 500;
-    }
-
-    .cta-grid {
-      margin-top: 1.7rem;
-      grid-template-columns: 1fr 0.94fr;
-      align-items: start;
-    }
-
-    .cta-panel,
-    .form-panel {
-      padding: 1.5rem;
-      border-radius: var(--radius-lg);
-    }
-
-    .cta-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.82rem;
-      margin-top: 1.2rem;
-    }
-
-    .contact-line {
-      margin-top: 1rem;
-      font-size: 0.94rem;
-      color: var(--soft);
-    }
-
-    form {
-      display: grid;
-      gap: 0.85rem;
-      margin-top: 0.95rem;
-    }
-
-    .form-row {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 0.85rem;
-    }
-
-    input,
-    textarea {
-      width: 100%;
-      padding: 0.95rem 1rem;
-      border-radius: 14px;
-      border: 1px solid rgba(255,255,255,0.09);
-      background: rgba(255,255,255,0.03);
-      color: rgba(244, 242, 237, 0.92);
-      font: inherit;
-      font-weight: 400;
-      outline: none;
-    }
-
-    input::placeholder,
-    textarea::placeholder {
-      color: rgba(244, 242, 237, 0.42);
-    }
-
-    input:focus,
-    textarea:focus {
-      border-color: rgba(219, 199, 160, 0.42);
-      box-shadow: 0 0 0 4px rgba(219, 199, 160, 0.07);
-      background: rgba(255,255,255,0.038);
-    }
-
-    textarea {
-      min-height: 150px;
-      resize: vertical;
-    }
-
-    .submit-note,
-    .form-status {
-      font-size: 0.92rem;
-      color: var(--soft);
-    }
-
-    .form-status.success {
-      color: #d8efc2;
-    }
-
-    .form-status.error {
-      color: #f0bcbc;
-    }
-
-    .site-footer {
-      padding: 3rem 0 4rem;
-      text-align: center;
-      color: var(--soft);
-      font-size: 0.95rem;
-    }
-
-    @media (max-width: 960px) {
-      .hero-grid,
-      .benefits-grid,
-      .comparison-grid,
-      .testimonial-grid,
-      .cta-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .phone-shell {
-        margin: 0 auto;
-      }
-
-      .quick-stats,
-      .benefit-chip-grid,
-      .form-row {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    @media (max-width: 760px) {
-      .nav-wrap {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 1rem 0;
-      }
-
-      .nav-links {
-        gap: 0.9rem;
-      }
-
-      .hero {
-        padding-top: 4.7rem;
-      }
-
-      .hero-actions,
-      .cta-actions {
-        flex-direction: column;
-      }
-
-      .btn,
-      .nav-cta {
-        width: 100%;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ClientFlow — Luxury Booking for Med Spas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ivory: #FAF7F2;
+    --ivory-deep: #F2EDE4;
+    --champagne: #E8D9C0;
+    --champagne-light: #F0E6D3;
+    --gold: #B8965A;
+    --gold-light: #D4AF7A;
+    --gold-pale: #EDD9B4;
+    --charcoal: #1C1917;
+    --charcoal-mid: #2E2B27;
+    --charcoal-soft: #44403C;
+    --mink: #7C6F62;
+    --mink-light: #A89A8C;
+    --blush: #D4B5A8;
+    --blush-light: #EDD8D0;
+    --rose: #C9967E;
+    --white: #FFFFFF;
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body: 'Jost', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--ivory);
+    color: var(--charcoal);
+    font-family: var(--font-body);
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: default;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 28px 60px;
+    background: rgba(250,247,242,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(184,150,90,0.15);
+    transition: padding 0.4s ease;
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    color: var(--charcoal);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--gold); }
+  .nav-links {
+    display: flex; gap: 40px; list-style: none;
+  }
+  .nav-links a {
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--mink); text-decoration: none; font-weight: 400;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta {
+    font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--gold); border: 1px solid var(--gold);
+    padding: 10px 24px; text-decoration: none; font-weight: 400;
+    transition: background 0.3s, color 0.3s;
+  }
+  .nav-cta:hover { background: var(--gold); color: var(--white); }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-top: 100px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-texture {
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(ellipse 80% 60% at 70% 50%, rgba(232,217,192,0.35) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(212,181,168,0.2) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 80px 60px 80px 80px;
+    position: relative; z-index: 1;
+  }
+  .hero-eyebrow {
+    font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--gold); font-weight: 400; margin-bottom: 28px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .hero-eyebrow::before {
+    content: ''; display: block; width: 40px; height: 1px;
+    background: var(--gold);
+  }
+  .hero-headline {
+    font-family: var(--font-display);
+    font-size: clamp(48px, 5.5vw, 76px);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--charcoal);
+    margin-bottom: 32px;
+    letter-spacing: -0.01em;
+  }
+  .hero-headline em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .hero-sub {
+    font-size: 15px;
+    line-height: 1.85;
+    color: var(--mink);
+    max-width: 420px;
+    margin-bottom: 52px;
+    font-weight: 300;
+  }
+  .hero-actions { display: flex; align-items: center; gap: 32px; }
+  .btn-primary {
+    background: var(--charcoal);
+    color: var(--champagne-light);
+    padding: 16px 40px;
+    font-family: var(--font-body);
+    font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+    border: none; cursor: pointer; text-decoration: none; font-weight: 400;
+    transition: background 0.3s, color 0.3s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--gold); color: var(--white); }
+  .btn-ghost {
+    font-size: 12px; letter-spacing: 0.1em;
+    color: var(--mink); text-decoration: none; font-weight: 300;
+    display: flex; align-items: center; gap: 8px;
+    transition: color 0.3s;
+    border: none; background: none; cursor: pointer;
+  }
+  .btn-ghost::after {
+    content: '→'; transition: transform 0.3s;
+  }
+  .btn-ghost:hover { color: var(--charcoal); }
+  .btn-ghost:hover::after { transform: translateX(4px); }
+
+  .hero-right {
+    display: flex; align-items: center; justify-content: center;
+    padding: 60px 60px 60px 20px;
+    position: relative; z-index: 1;
+  }
+  .phone-frame {
+    width: 300px;
+    background: var(--charcoal);
+    border-radius: 36px;
+    padding: 48px 0 36px;
+    box-shadow: 0 40px 80px rgba(28,25,23,0.22), 0 8px 24px rgba(28,25,23,0.12);
+    position: relative;
+  }
+  .phone-frame::before {
+    content: '';
+    position: absolute; top: 20px; left: 50%; transform: translateX(-50%);
+    width: 80px; height: 6px;
+    background: var(--charcoal-soft);
+    border-radius: 3px;
+  }
+  .phone-screen { padding: 0 20px; }
+  .phone-status {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 4px 16px;
+    font-size: 11px; color: rgba(255,255,255,0.4); font-weight: 300;
+    letter-spacing: 0.04em;
+  }
+  .chat-label {
+    text-align: center; font-size: 10px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: rgba(255,255,255,0.35);
+    padding-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.08);
+    margin-bottom: 20px; font-weight: 300;
+  }
+  .msg {
+    margin-bottom: 12px;
+    opacity: 0;
+    animation: fadeUp 0.5s ease forwards;
+  }
+  .msg-bubble {
+    display: inline-block;
+    padding: 11px 16px;
+    border-radius: 18px;
+    font-size: 13px;
+    line-height: 1.55;
+    max-width: 220px;
+    font-family: var(--font-body);
+    font-weight: 300;
+  }
+  .msg-them .msg-bubble {
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.92);
+    border-radius: 18px 18px 18px 4px;
+  }
+  .msg-us { text-align: right; }
+  .msg-us .msg-bubble {
+    background: var(--gold);
+    color: var(--white);
+    border-radius: 18px 18px 4px 18px;
+  }
+  .msg-name {
+    font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--gold-light); margin-bottom: 5px; font-weight: 400;
+  }
+  .msg:nth-child(1) { animation-delay: 0.3s; }
+  .msg:nth-child(2) { animation-delay: 0.9s; }
+  .msg:nth-child(3) { animation-delay: 1.5s; }
+  .msg:nth-child(4) { animation-delay: 2.1s; }
+  .msg:nth-child(5) { animation-delay: 2.7s; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-stats {
+    display: flex; gap: 0;
+    border-top: 1px solid rgba(184,150,90,0.2);
+    margin-top: 64px; padding-top: 40px;
+  }
+  .stat {
+    flex: 1;
+    padding-right: 32px;
+    border-right: 1px solid rgba(184,150,90,0.15);
+    margin-right: 32px;
+  }
+  .stat:last-child { border-right: none; margin-right: 0; padding-right: 0; }
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 38px; font-weight: 300;
+    color: var(--charcoal);
+    line-height: 1;
+    margin-bottom: 6px;
+  }
+  .stat-num span { color: var(--gold); }
+  .stat-label { font-size: 11px; color: var(--mink); letter-spacing: 0.08em; line-height: 1.5; }
+
+  /* ── SECTION SHARED ── */
+  section { position: relative; }
+  .section-inner { max-width: 1200px; margin: 0 auto; padding: 0 60px; }
+  .section-eyebrow {
+    font-size: 10px; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--gold); font-weight: 400; margin-bottom: 20px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .section-eyebrow::before {
+    content: ''; display: block; width: 30px; height: 1px; background: var(--gold);
+  }
+  .section-title {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 4vw, 58px);
+    font-weight: 300; line-height: 1.15;
+    color: var(--charcoal);
+    letter-spacing: -0.01em;
+  }
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  /* ── PROBLEM ── */
+  .problem-section {
+    padding: 120px 0;
+    background: var(--charcoal);
+  }
+  .problem-section .section-eyebrow { color: var(--gold-light); }
+  .problem-section .section-eyebrow::before { background: var(--gold-light); }
+  .problem-section .section-title { color: var(--champagne-light); }
+  .problem-section .section-title em { color: var(--gold-light); }
+  .problem-grid {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 80px; margin-top: 72px; align-items: start;
+  }
+  .problem-copy {
+    font-size: 16px; line-height: 2; color: rgba(242,237,228,0.7);
+    font-weight: 300;
+  }
+  .problem-copy p { margin-bottom: 24px; }
+  .problem-copy strong { color: var(--champagne-light); font-weight: 400; }
+  .problem-list { list-style: none; }
+  .problem-list li {
+    padding: 24px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    display: flex; gap: 20px; align-items: flex-start;
+  }
+  .problem-list li:first-child { border-top: 1px solid rgba(255,255,255,0.07); }
+  .problem-num {
+    font-family: var(--font-display);
+    font-size: 13px; color: var(--gold);
+    font-weight: 300; letter-spacing: 0.06em;
+    flex-shrink: 0; padding-top: 2px;
+  }
+  .problem-text { font-size: 14px; color: rgba(242,237,228,0.65); line-height: 1.75; }
+  .problem-text strong { display: block; color: var(--champagne-light); font-weight: 400; font-size: 15px; margin-bottom: 4px; }
+
+  /* ── HOW IT WORKS ── */
+  .howitworks-section { padding: 140px 0; background: var(--ivory); }
+  .howitworks-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 2px; margin-top: 72px;
+    border: 1px solid rgba(184,150,90,0.2);
+  }
+  .hw-card {
+    padding: 52px 40px;
+    background: var(--ivory);
+    border-right: 1px solid rgba(184,150,90,0.2);
+    transition: background 0.4s;
+    position: relative;
+    overflow: hidden;
+  }
+  .hw-card:last-child { border-right: none; }
+  .hw-card::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+    background: var(--gold);
+    transform: scaleX(0); transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .hw-card:hover { background: var(--champagne-light); }
+  .hw-card:hover::after { transform: scaleX(1); }
+  .hw-num {
+    font-family: var(--font-display);
+    font-size: 64px; font-weight: 300;
+    color: rgba(184,150,90,0.18);
+    line-height: 1; margin-bottom: 28px;
+    letter-spacing: -0.02em;
+  }
+  .hw-title {
+    font-family: var(--font-display);
+    font-size: 24px; font-weight: 400;
+    color: var(--charcoal); margin-bottom: 16px;
+    letter-spacing: 0.01em;
+  }
+  .hw-desc { font-size: 14px; line-height: 1.85; color: var(--mink); }
+
+  /* ── EXPERIENCE ── */
+  .experience-section {
+    padding: 140px 0;
+    background: var(--ivory-deep);
+  }
+  .experience-inner {
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 100px; align-items: center;
+  }
+  .experience-before-after {
+    display: flex; gap: 24px;
+  }
+  .ba-card {
+    flex: 1;
+    padding: 36px 28px;
+    border: 1px solid rgba(184,150,90,0.2);
+  }
+  .ba-card.before { background: var(--white); }
+  .ba-card.after { background: var(--charcoal); }
+  .ba-label {
+    font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
+    font-weight: 400; margin-bottom: 24px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .before .ba-label { color: var(--mink-light); }
+  .after .ba-label { color: var(--gold-light); }
+  .ba-label::before {
+    content: ''; width: 20px; height: 1px;
+  }
+  .before .ba-label::before { background: var(--mink-light); }
+  .after .ba-label::before { background: var(--gold-light); }
+  .ba-item {
+    display: flex; gap: 10px; margin-bottom: 16px;
+    font-size: 13px; line-height: 1.6; align-items: flex-start;
+  }
+  .ba-item::before {
+    content: ''; width: 5px; height: 5px;
+    border-radius: 50%; flex-shrink: 0; margin-top: 7px;
+  }
+  .before .ba-item { color: var(--mink); }
+  .before .ba-item::before { background: rgba(124,111,98,0.4); }
+  .after .ba-item { color: rgba(242,237,228,0.75); }
+  .after .ba-item::before { background: var(--gold); }
+  .experience-copy { }
+  .experience-copy .section-title { margin-bottom: 24px; }
+  .experience-copy p {
+    font-size: 15px; line-height: 2; color: var(--mink);
+    margin-bottom: 20px;
+  }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials-section {
+    padding: 140px 0;
+    background: var(--ivory);
+    overflow: hidden;
+  }
+  .testimonials-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 32px; margin-top: 72px;
+  }
+  .testimonial-card {
+    padding: 48px 36px;
+    background: var(--white);
+    border: 1px solid rgba(184,150,90,0.15);
+    position: relative;
+  }
+  .testimonial-card::before {
+    content: '\201C';
+    font-family: var(--font-display);
+    font-size: 120px; line-height: 0.8;
+    color: rgba(184,150,90,0.12);
+    position: absolute; top: 24px; left: 24px;
+    font-weight: 300;
+  }
+  .testimonial-text {
+    font-family: var(--font-display);
+    font-size: 19px; font-style: italic; font-weight: 300;
+    line-height: 1.7; color: var(--charcoal-soft);
+    margin-bottom: 32px; position: relative; z-index: 1;
+    padding-top: 20px;
+  }
+  .testimonial-rule { width: 32px; height: 1px; background: var(--gold); margin-bottom: 20px; }
+  .testimonial-name { font-size: 12px; font-weight: 400; letter-spacing: 0.1em; color: var(--charcoal); text-transform: uppercase; }
+  .testimonial-role { font-size: 12px; color: var(--mink-light); margin-top: 4px; }
+
+  /* ── FEATURES ── */
+  .features-section {
+    padding: 140px 0;
+    background: var(--charcoal-mid);
+  }
+  .features-section .section-eyebrow { color: var(--gold-light); }
+  .features-section .section-eyebrow::before { background: var(--gold-light); }
+  .features-section .section-title { color: var(--champagne-light); }
+  .features-section .section-title em { color: var(--gold-light); }
+  .features-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 0; margin-top: 72px;
+    border: 1px solid rgba(255,255,255,0.07);
+  }
+  .feature-card {
+    padding: 48px 40px;
+    border-right: 1px solid rgba(255,255,255,0.07);
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+    transition: background 0.3s;
+  }
+  .feature-card:nth-child(3n) { border-right: none; }
+  .feature-card:nth-last-child(-n+3) { border-bottom: none; }
+  .feature-card:hover { background: rgba(255,255,255,0.03); }
+  .feature-icon {
+    width: 40px; height: 40px;
+    border: 1px solid rgba(184,150,90,0.4);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 28px;
+  }
+  .feature-icon svg { width: 18px; height: 18px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
+  .feature-title {
+    font-family: var(--font-display);
+    font-size: 20px; font-weight: 400;
+    color: var(--champagne-light); margin-bottom: 14px;
+  }
+  .feature-desc { font-size: 13px; line-height: 1.85; color: rgba(242,237,228,0.5); }
+
+  /* ── CTA / BOOKING ── */
+  .booking-section {
+    padding: 160px 0;
+    background: var(--ivory);
+    position: relative;
+  }
+  .booking-section::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+  .booking-inner {
+    max-width: 680px; margin: 0 auto; text-align: center; padding: 0 40px;
+  }
+  .booking-eyebrow { justify-content: center; }
+  .booking-eyebrow::before { display: none; }
+  .booking-title {
+    font-family: var(--font-display);
+    font-size: clamp(42px, 5vw, 68px);
+    font-weight: 300; line-height: 1.12;
+    color: var(--charcoal); margin: 20px 0 28px;
+    letter-spacing: -0.01em;
+  }
+  .booking-title em { font-style: italic; color: var(--gold); }
+  .booking-sub {
+    font-size: 15px; line-height: 1.9; color: var(--mink);
+    margin-bottom: 52px; font-weight: 300;
+  }
+  .booking-form {
+    display: flex; flex-direction: column; gap: 0;
+    border: 1px solid rgba(184,150,90,0.3); background: var(--white);
+    margin-bottom: 24px;
+  }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; }
+  .form-field {
+    padding: 20px 24px;
+    border-right: 1px solid rgba(184,150,90,0.2);
+    border-bottom: 1px solid rgba(184,150,90,0.2);
+    position: relative;
+  }
+  .form-field:last-child { border-right: none; }
+  .form-field.full { grid-column: 1 / -1; border-right: none; }
+  .form-field.last-row { border-bottom: none; }
+  .form-label {
+    font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gold); font-weight: 400; display: block; margin-bottom: 6px;
+  }
+  .form-field input, .form-field textarea, .form-field select {
+    width: 100%; background: none; border: none; outline: none;
+    font-family: var(--font-body); font-size: 14px; font-weight: 300;
+    color: var(--charcoal); resize: none;
+  }
+  .form-field input::placeholder, .form-field textarea::placeholder {
+    color: var(--mink-light);
+  }
+  .form-submit {
+    width: 100%;
+    background: var(--charcoal);
+    color: var(--champagne-light);
+    padding: 22px;
+    font-family: var(--font-body);
+    font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase;
+    border: none; cursor: pointer; font-weight: 400;
+    transition: background 0.3s;
+  }
+  .form-submit:hover { background: var(--gold); }
+  .booking-or {
+    font-size: 11px; color: var(--mink-light); letter-spacing: 0.1em;
+    margin: 28px 0; text-transform: uppercase;
+    display: flex; align-items: center; gap: 16px;
+  }
+  .booking-or::before, .booking-or::after {
+    content: ''; flex: 1; height: 1px; background: rgba(184,150,90,0.2);
+  }
+  .btn-calendly {
+    display: inline-block;
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    padding: 16px 40px;
+    font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase;
+    text-decoration: none; font-weight: 400; font-family: var(--font-body);
+    transition: background 0.3s, color 0.3s;
+  }
+  .btn-calendly:hover { background: var(--gold); color: var(--white); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--charcoal);
+    padding: 60px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid rgba(184,150,90,0.15);
+  }
+  .footer-logo {
+    font-family: var(--font-display);
+    font-size: 18px; font-weight: 400; letter-spacing: 0.08em;
+    color: var(--champagne-light);
+  }
+  .footer-logo span { color: var(--gold); }
+  .footer-copy { font-size: 12px; color: rgba(255,255,255,0.3); }
+  .footer-email {
+    font-size: 12px; color: var(--gold-light); text-decoration: none;
+    letter-spacing: 0.04em; transition: color 0.3s;
+  }
+  .footer-email:hover { color: var(--gold); }
+
+  /* ── DIVIDER ── */
+  .gold-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .fade-in.visible { opacity: 1; transform: translateY(0); }
+  .fade-in-delay-1 { transition-delay: 0.1s; }
+  .fade-in-delay-2 { transition-delay: 0.2s; }
+  .fade-in-delay-3 { transition-delay: 0.3s; }
+
+  @media (max-width: 900px) {
+    nav { padding: 20px 28px; }
+    .nav-links { display: none; }
+    .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 80px; }
+    .hero-left { padding: 60px 28px 40px; }
+    .hero-right { padding: 0 28px 60px; }
+    .phone-frame { width: 260px; }
+    .hero-stats { gap: 0; }
+    .problem-grid, .experience-inner { grid-template-columns: 1fr; gap: 48px; }
+    .howitworks-grid, .testimonials-grid, .features-grid { grid-template-columns: 1fr; }
+    .hw-card, .feature-card { border-right: none; }
+    .form-row { grid-template-columns: 1fr; }
+    .form-field { border-right: none; }
+    .section-inner { padding: 0 28px; }
+    footer { flex-direction: column; gap: 20px; text-align: center; padding: 40px 28px; }
+    .experience-before-after { flex-direction: column; }
+  }
+</style>
 </head>
 <body>
-  <header class="site-header">
-    <div class="container nav-wrap">
-      <a href="#top" class="brand" aria-label="ClientFlow Elite home">
-        <span class="brand-mark">ClientFlow Elite</span>
-        <span class="brand-name">Elevated booking and follow-up for med spas</span>
-      </a>
 
-      <nav class="nav-links" aria-label="Primary">
-        <a href="#benefits">Benefits</a>
-        <a href="#experience">Experience</a>
-        <a href="#testimonials">Testimonials</a>
-        <a href="#book">Book a Private Demo</a>
-      </nav>
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Client<span>Flow</span></a>
+  <ul class="nav-links">
+    <li><a href="#problem">The Gap</a></li>
+    <li><a href="#how">How It Works</a></li>
+    <li><a href="#testimonials">Results</a></li>
+    <li><a href="#demo">Private Demo</a></li>
+  </ul>
+  <a href="#demo" class="nav-cta">Book a Demo</a>
+</nav>
 
-      <a class="nav-cta" href="https://calendly.com/clientflowmedspa" target="_blank" rel="noopener noreferrer">
-        Book a Private Demo
-      </a>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-texture"></div>
+  <div class="hero-left">
+    <div class="hero-eyebrow fade-in">Luxury Booking & Follow-Up</div>
+    <h1 class="hero-headline fade-in fade-in-delay-1">
+      Every inquiry<br>deserves an<br><em>elegant reply.</em>
+    </h1>
+    <p class="hero-sub fade-in fade-in-delay-2">
+      ClientFlow gives premium med spas a client experience that feels as refined as their treatments — from first contact to confirmed appointment and beyond.
+    </p>
+    <div class="hero-actions fade-in fade-in-delay-3">
+      <a href="#demo" class="btn-primary">Request Private Demo</a>
+      <a href="#how" class="btn-ghost">See the experience</a>
     </div>
-  </header>
-
-  <main id="top">
-    <section class="hero">
-      <div class="container hero-grid">
-        <div>
-          <div class="eyebrow">Elevated booking and follow-up for modern med spas</div>
-
-          <h1>Turn more inquiries into booked appointments — with a polished client experience from the first touch.</h1>
-
-          <p class="lead">
-            ClientFlow Elite helps med spas respond faster, reduce missed opportunities, and create a smoother booking experience without adding more work to the front desk.
-          </p>
-
-          <div class="hero-actions">
-            <a class="btn btn-primary" href="https://calendly.com/clientflowmedspa" target="_blank" rel="noopener noreferrer">
-              Book a Private Demo
-            </a>
-            <a class="btn btn-secondary" href="#experience">
-              See the Client Journey
-            </a>
-          </div>
-
-          <p class="hero-supporting-line">
-            Used by med spas to create faster follow-up, smoother booking, and a more consistent client experience — without adding front desk pressure.
-          </p>
-
-          <div class="quick-stats" aria-label="Key benefits">
-            <div class="stat">
-              <strong>Fast follow-up</strong>
-              <span>Respond sooner while interest is still high.</span>
-            </div>
-            <div class="stat">
-              <strong>Fewer lost leads</strong>
-              <span>Reduce drop-off caused by slow replies and missed steps.</span>
-            </div>
-            <div class="stat">
-              <strong>Polished client journey</strong>
-              <span>Create a smoother experience without more front desk pressure.</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="hero-card">
-          <div class="phone-shell">
-            <div class="phone-top">
-              <div class="phone-notch"></div>
-            </div>
-
-            <div class="phone-screen">
-              <div class="messages-header">
-                <span class="label">Messages</span>
-                <span class="date">Today</span>
-              </div>
-
-              <div class="bubble received">Hi Sarah, thank you for reaching out about lip filler.</div>
-              <div class="bubble received">We have an opening tomorrow at 3:00 PM. Would you like me to reserve it for you?</div>
-              <div class="bubble sent">Yes, please.</div>
-              <div class="bubble received">Perfect — you’re all set. We’ll send your confirmation and reminder shortly.</div>
-              <div class="bubble received">If you need anything before your appointment, just reply here.</div>
-            </div>
-          </div>
-        </div>
+    <div class="hero-stats fade-in">
+      <div class="stat">
+        <div class="stat-num">3<span>×</span></div>
+        <div class="stat-label">Faster inquiry<br>response</div>
       </div>
-    </section>
-
-    <section class="benefit-strip">
-      <div class="container">
-        <div class="glass-card">
-          <div class="benefit-chip-grid">
-            <div class="benefit-chip">Fast follow-up</div>
-            <div class="benefit-chip">Fewer lost leads</div>
-            <div class="benefit-chip">A more polished client journey</div>
-          </div>
-        </div>
+      <div class="stat">
+        <div class="stat-num">40<span>%</span></div>
+        <div class="stat-label">Fewer dropped<br>leads</div>
       </div>
-    </section>
-
-    <section class="section">
-      <div class="container">
-        <p class="section-kicker">Client experience, elevated</p>
-        <h2>Polished communication. Real booking momentum.</h2>
-        <p class="section-intro">
-          Built to feel refined enough for established practices and simple enough for growing med spas that want a better way to follow up.
-        </p>
+      <div class="stat">
+        <div class="stat-num">5<span>★</span></div>
+        <div class="stat-label">Client experience<br>rating</div>
       </div>
-    </section>
-
-    <section id="benefits" class="section">
-      <div class="container">
-        <h2>What changes with ClientFlow Elite</h2>
-        <p class="section-intro">
-          This is not just automation. It is a faster, smoother, more professional path from first inquiry to confirmed appointment.
-        </p>
-
-        <div class="benefits-grid">
-          <article class="card">
-            <div class="card-number">01</div>
-            <h3>Leads are answered faster</h3>
-            <p>Missed calls and delayed replies stop quietly costing you appointments.</p>
-          </article>
-
-          <article class="card">
-            <div class="card-number">02</div>
-            <h3>Booking feels easier</h3>
-            <p>Interested clients are guided toward the next step with less friction, less delay, and more confidence.</p>
-          </article>
-
-          <article class="card">
-            <div class="card-number">03</div>
-            <h3>Your brand feels more elevated</h3>
-            <p>Every touchpoint feels more polished, responsive, and aligned with the kind of experience today’s clients expect.</p>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="experience" class="section">
-      <div class="container">
-        <h2>The booking experience</h2>
-        <p class="section-intro">
-          What matters most is what happens after someone shows interest. That is where bookings are often won or lost.
-        </p>
-
-        <div class="comparison-grid">
-          <article class="comparison-card">
-            <span class="comparison-label">Without a structured follow-up system</span>
-            <h3>Interest fades quickly</h3>
-            <ul>
-              <li>A call is missed.</li>
-              <li>A web inquiry sits unanswered.</li>
-              <li>Follow-up happens late or not at all.</li>
-              <li>The potential client moves on.</li>
-            </ul>
-          </article>
-
-          <article class="comparison-card featured">
-            <span class="comparison-label">With ClientFlow Elite</span>
-            <h3>Interest is guided toward a booking</h3>
-            <ul>
-              <li>The inquiry is acknowledged quickly.</li>
-              <li>The client is guided toward the next step.</li>
-              <li>Reminders reduce drop-off and no-shows.</li>
-              <li>The journey feels smoother, more polished, and more consistent.</li>
-            </ul>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="testimonials" class="section">
-      <div class="container">
-        <h2>Testimonials</h2>
-        <p class="section-intro">
-          What med spa owners and practice leaders value most is a smoother experience, faster follow-up, and fewer missed opportunities.
-        </p>
-
-        <div class="testimonial-grid">
-          <article class="testimonial-card">
-            <blockquote>
-              “The biggest difference for us was speed. Clients were hearing back faster, and booking became much more consistent.”
-            </blockquote>
-            <div class="testimonial-author">— Med Spa Owner, Dallas</div>
-          </article>
-
-          <article class="testimonial-card">
-            <blockquote>
-              “It helped us create a smoother client journey without adding more pressure to the front desk. It felt more elevated almost immediately.”
-            </blockquote>
-            <div class="testimonial-author">— Aesthetic Practice Director</div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section id="book" class="section">
-      <div class="container">
-        <h2>Book a private demo</h2>
-        <p class="section-intro">
-          See how ClientFlow Elite can support your booking flow, follow-up process, and overall client experience — in a short private walkthrough tailored to your practice.
-        </p>
-
-        <div class="cta-grid">
-          <div class="cta-panel">
-            <ul class="cta-list">
-              <li>See how missed inquiries can become real appointments.</li>
-              <li>Explore a booking experience that feels polished, responsive, and easy to manage.</li>
-              <li>Understand how to improve follow-up without adding extra front desk pressure.</li>
-            </ul>
-
-            <p class="contact-line">
-              Whether you are refining an established client journey or simply looking to improve follow-up, ClientFlow Elite is designed to make growth feel more organized and more polished.
-            </p>
-
-            <div class="cta-actions">
-              <a class="btn btn-primary" href="https://calendly.com/clientflowmedspa" target="_blank" rel="noopener noreferrer">
-                Book via Calendly
-              </a>
-              <a class="btn btn-secondary" href="mailto:clientflowmedspa@gmail.com">
-                Email Instead
-              </a>
-            </div>
-
-            <p class="contact-line">Prefer email? clientflowmedspa@gmail.com</p>
-          </div>
-
-          <div class="form-panel">
-            <h3>Request a private walkthrough</h3>
-            <p class="section-intro" style="margin-top:0.55rem; font-size:0.98rem;">
-              Share your details and we’ll follow up with next steps shortly.
-            </p>
-
-            <form id="lead-form">
-              <div class="form-row">
-                <input type="text" name="from_name" placeholder="Full name" required />
-                <input type="text" name="company" placeholder="Business name" required />
-              </div>
-
-              <div class="form-row">
-                <input type="email" name="reply_to" placeholder="Email address" required />
-                <input type="tel" name="phone" placeholder="Phone number" required />
-              </div>
-
-              <textarea name="message" placeholder="What would you like help improving?" required></textarea>
-
-              <button type="submit" class="btn btn-primary">Send Request</button>
-
-              <div class="submit-note">We typically respond within one business day.</div>
-              <div id="form-status" class="form-status" aria-live="polite"></div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      ClientFlow Elite — a more polished path from inquiry to appointment.
     </div>
-  </footer>
+  </div>
+  <div class="hero-right fade-in fade-in-delay-2">
+    <div class="phone-frame">
+      <div class="phone-screen">
+        <div class="phone-status"><span>9:41</span><span>●●●</span></div>
+        <div class="chat-label">Lumière Aesthetics</div>
+        <div class="msg msg-them">
+          <div class="msg-name">ClientFlow</div>
+          <div class="msg-bubble">Hello Sophia — thank you for reaching out about your lip filler consultation. I'd love to help you find the perfect time.</div>
+        </div>
+        <div class="msg msg-them">
+          <div class="msg-bubble">We have Thursday at 3:30 PM or Friday at 11:00 AM available. Which feels right for you?</div>
+        </div>
+        <div class="msg msg-us">
+          <div class="msg-bubble">Friday at 11 is perfect.</div>
+        </div>
+        <div class="msg msg-them">
+          <div class="msg-bubble">Wonderful. Your consultation is reserved. You'll receive your confirmation shortly, and a gentle reminder the morning of your visit. ✦</div>
+        </div>
+        <div class="msg msg-them" style="margin-bottom:0;">
+          <div class="msg-bubble" style="font-size:12px; color:rgba(255,255,255,0.5);">We look forward to welcoming you.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-  <script>
-    (function () {
-      emailjs.init({
-        publicKey: "t_PbGBW1_sIsD_bcO"
-      });
+<div class="gold-divider"></div>
 
-      const form = document.getElementById("lead-form");
-      const status = document.getElementById("form-status");
+<!-- PROBLEM -->
+<section class="problem-section" id="problem">
+  <div class="section-inner">
+    <div class="section-eyebrow fade-in">The Revenue Gap</div>
+    <h2 class="section-title fade-in fade-in-delay-1">
+      Beautiful brands still<br>lose bookings to<br><em>slow follow-up.</em>
+    </h2>
+    <div class="problem-grid">
+      <div class="problem-copy fade-in">
+        <p>A prospect calls during a treatment. The front desk is with a client. No one follows up until the next morning — and by then, she's booked with someone else.</p>
+        <p>This is not a failure of your brand. It's a <strong>structural gap</strong> that most med spas don't realize costs them tens of thousands each year.</p>
+        <p>The quality of your service is never in question. What's missing is a system that responds with the same care and speed your clients already expect from a premium experience.</p>
+      </div>
+      <ul class="problem-list fade-in fade-in-delay-1">
+        <li>
+          <span class="problem-num">01</span>
+          <div class="problem-text"><strong>Calls missed during treatment hours</strong>Prospects call during your busiest moments and hear silence — not the warm, attentive response your brand deserves to make.</div>
+        </li>
+        <li>
+          <span class="problem-num">02</span>
+          <div class="problem-text"><strong>Interest fades within hours</strong>High-intent clients move quickly. A delayed reply often means a booking lost to a competitor who simply responded first.</div>
+        </li>
+        <li>
+          <span class="problem-num">03</span>
+          <div class="problem-text"><strong>Inconsistent follow-up experience</strong>Some leads receive a call back. Others are forgotten. The inconsistency quietly damages the reputation you've worked hard to build.</div>
+        </li>
+        <li>
+          <span class="problem-num">04</span>
+          <div class="problem-text"><strong>Past clients quietly disappear</strong>Without a graceful reactivation flow, returning clients rely on memory — and memory is rarely as reliable as a well-timed, tasteful message.</div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-      if (!form) return;
+<div class="gold-divider"></div>
 
-      form.addEventListener("submit", async function (event) {
-        event.preventDefault();
-        status.textContent = "Sending...";
-        status.className = "form-status";
+<!-- HOW IT WORKS -->
+<section class="howitworks-section" id="how">
+  <div class="section-inner">
+    <div class="section-eyebrow fade-in">The System</div>
+    <h2 class="section-title fade-in fade-in-delay-1">A client journey as<br>refined as your <em>brand.</em></h2>
+    <div class="howitworks-grid">
+      <div class="hw-card fade-in">
+        <div class="hw-num">01</div>
+        <div class="hw-title">Inquiry arrives</div>
+        <p class="hw-desc">A prospect calls, fills out a form, or sends a message. ClientFlow captures the moment and responds immediately — no matter the hour, no matter who is with a client.</p>
+      </div>
+      <div class="hw-card fade-in fade-in-delay-1">
+        <div class="hw-num">02</div>
+        <div class="hw-title">Elegant follow-up begins</div>
+        <p class="hw-desc">A warm, on-brand message is sent that feels personal and thoughtful — not automated. The prospect is gently guided toward the next step at exactly the right moment.</p>
+      </div>
+      <div class="hw-card fade-in fade-in-delay-2">
+        <div class="hw-num">03</div>
+        <div class="hw-title">Consultation confirmed</div>
+        <p class="hw-desc">The booking is secured. A reminder is sent the morning of the visit. The client arrives feeling expected, cared for, and already in love with the experience.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-        try {
-          await emailjs.sendForm(
-            "service_tqi0gjg",
-            "template_ts4ddha",
-            form
-          );
+<!-- EXPERIENCE COMPARISON -->
+<section class="experience-section">
+  <div class="section-inner">
+    <div class="experience-inner">
+      <div class="experience-before-after fade-in">
+        <div class="ba-card before">
+          <div class="ba-label">Without ClientFlow</div>
+          <div class="ba-item">A call is missed during a treatment.</div>
+          <div class="ba-item">No reply until the next morning.</div>
+          <div class="ba-item">Follow-up is inconsistent or forgotten entirely.</div>
+          <div class="ba-item">The prospect books elsewhere.</div>
+          <div class="ba-item">Past clients drift away without a nudge to return.</div>
+        </div>
+        <div class="ba-card after">
+          <div class="ba-label">With ClientFlow</div>
+          <div class="ba-item">An immediate, polished reply is sent.</div>
+          <div class="ba-item">Interest is captured while still warm.</div>
+          <div class="ba-item">The client is guided gracefully toward booking.</div>
+          <div class="ba-item">A reminder protects the appointment.</div>
+          <div class="ba-item">Tasteful outreach brings past clients back.</div>
+        </div>
+      </div>
+      <div class="experience-copy fade-in fade-in-delay-1">
+        <div class="section-eyebrow">The Difference</div>
+        <h2 class="section-title">What your client<br><em>feels</em> changes everything.</h2>
+        <p>The moment between an inquiry and a response is where trust is built or lost. ClientFlow closes that gap with communication that feels warm, attentive, and worthy of a premium brand.</p>
+        <p>No robotic auto-replies. No generic templates. Every message is crafted to feel like it came from the most gracious member of your team.</p>
+        <a href="#demo" class="btn-primary" style="margin-top: 12px; display: inline-block;">Experience It Yourself</a>
+      </div>
+    </div>
+  </div>
+</section>
 
-          await emailjs.send(
-            "service_tqi0gjg",
-            "template_eavbc4k",
-            {
-              from_name: form.from_name.value,
-              company: form.company.value,
-              reply_to: form.reply_to.value,
-              phone: form.phone.value,
-              message: form.message.value
-            }
-          );
+<!-- TESTIMONIALS -->
+<section class="testimonials-section" id="testimonials">
+  <div class="section-inner">
+    <div class="section-eyebrow fade-in">Client Voices</div>
+    <h2 class="section-title fade-in fade-in-delay-1">What our med spa<br>partners <em>experience.</em></h2>
+    <div class="testimonials-grid">
+      <div class="testimonial-card fade-in">
+        <p class="testimonial-text">The difference was immediate. Clients were hearing back within minutes instead of hours, and our bookings became noticeably more consistent within the first two weeks.</p>
+        <div class="testimonial-rule"></div>
+        <div class="testimonial-name">Alexandra M.</div>
+        <div class="testimonial-role">Founder, Lumière Aesthetics — Dallas, TX</div>
+      </div>
+      <div class="testimonial-card fade-in fade-in-delay-1">
+        <p class="testimonial-text">What surprised me most was how natural the messages felt. Clients would mention the follow-up as if I had personally reached out. That level of polish matters enormously for our brand.</p>
+        <div class="testimonial-rule"></div>
+        <div class="testimonial-name">Dr. Priya S.</div>
+        <div class="testimonial-role">Medical Director, Sèvres Aesthetic Studio</div>
+      </div>
+      <div class="testimonial-card fade-in fade-in-delay-2">
+        <p class="testimonial-text">We used to lose leads simply because we were busy with the clients already in our chairs. ClientFlow solved that without adding any pressure to the front desk — it just works quietly in the background.</p>
+        <div class="testimonial-rule"></div>
+        <div class="testimonial-name">Camille T.</div>
+        <div class="testimonial-role">Aesthetic Practice Director, The Ivory Suite</div>
+      </div>
+    </div>
+  </div>
+</section>
 
-          form.reset();
-          status.textContent = "Request sent successfully. You’ll hear back shortly.";
-          status.className = "form-status success";
-        } catch (error) {
-          console.error(error);
-          status.textContent = "Something went wrong while sending your request. Please email clientflowmedspa@gmail.com instead.";
-          status.className = "form-status error";
-        }
-      });
-    })();
-  </script>
+<!-- FEATURES -->
+<section class="features-section">
+  <div class="section-inner">
+    <div class="section-eyebrow fade-in">What's Included</div>
+    <h2 class="section-title fade-in fade-in-delay-1">Every touchpoint,<br><em>thoughtfully designed.</em></h2>
+    <div class="features-grid">
+      <div class="feature-card fade-in">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.88 9.8 19.79 19.79 0 01.79 1.13 2 2 0 012.78 1h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L6.91 8.73a16 16 0 006 6l1.06-1.06a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+        </div>
+        <div class="feature-title">Missed call text-back</div>
+        <p class="feature-desc">When a prospect calls and no one answers, they receive a graceful, on-brand response immediately — before the moment of interest has passed.</p>
+      </div>
+      <div class="feature-card fade-in fade-in-delay-1">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        </div>
+        <div class="feature-title">Lead nurture flow</div>
+        <p class="feature-desc">New inquiries receive warm, well-timed messages that guide them gently toward booking — never pushy, always personalized to your brand voice.</p>
+      </div>
+      <div class="feature-card fade-in fade-in-delay-2">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+        </div>
+        <div class="feature-title">Appointment reminders</div>
+        <p class="feature-desc">Elegant reminder touchpoints reduce no-shows while making each client feel expected and cared for well before they arrive.</p>
+      </div>
+      <div class="feature-card fade-in">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <div class="feature-title">Reactivation outreach</div>
+        <p class="feature-desc">Past clients receive tasteful, perfectly timed messages that invite them back for touch-ups, maintenance visits, and seasonal treatments.</p>
+      </div>
+      <div class="feature-card fade-in fade-in-delay-1">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <div class="feature-title">Review cultivation</div>
+        <p class="feature-desc">Happy clients are prompted to share their experience at precisely the right moment — helping your reputation grow organically and beautifully.</p>
+      </div>
+      <div class="feature-card fade-in fade-in-delay-2">
+        <div class="feature-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="feature-title">Luxury brand voice</div>
+        <p class="feature-desc">Every message is calibrated to reflect your practice's aesthetic — refined, warm, and unmistakably premium. Your voice, amplified.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING / CTA -->
+<section class="booking-section" id="demo">
+  <div class="booking-inner">
+    <div class="section-eyebrow booking-eyebrow fade-in">Private Walkthrough</div>
+    <h2 class="booking-title fade-in fade-in-delay-1">
+      See what your<br>practice could <em>feel like.</em>
+    </h2>
+    <p class="booking-sub fade-in fade-in-delay-2">
+      A short private walkthrough tailored to your practice — no pressure, no pitch. Just a clear look at what changes when follow-up becomes effortless.
+    </p>
+    <form class="booking-form fade-in" onsubmit="handleSubmit(event)">
+      <div class="form-row">
+        <div class="form-field">
+          <label class="form-label">Your name</label>
+          <input type="text" placeholder="Dr. Alexandra Moore" required>
+        </div>
+        <div class="form-field" style="border-right:none;">
+          <label class="form-label">Practice name</label>
+          <input type="text" placeholder="Lumière Aesthetics" required>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-field">
+          <label class="form-label">Email address</label>
+          <input type="email" placeholder="hello@lumiereaesthetics.com" required>
+        </div>
+        <div class="form-field" style="border-right:none;">
+          <label class="form-label">Phone number</label>
+          <input type="tel" placeholder="+1 (214) 555-0182">
+        </div>
+      </div>
+      <div class="form-field full last-row">
+        <label class="form-label">What would you like to improve?</label>
+        <textarea rows="3" placeholder="Tell us where you feel the most friction — missed calls, slow follow-up, no-shows…"></textarea>
+      </div>
+      <button type="submit" class="form-submit">Request My Private Demo →</button>
+    </form>
+    <div class="booking-or fade-in">or book instantly</div>
+    <a href="https://calendly.com/clientflowmedspa" target="_blank" class="btn-calendly fade-in">Schedule via Calendly</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Client<span>Flow</span></div>
+  <div class="footer-copy">© 2026 ClientFlow. Luxury follow-up for premium med spas.</div>
+  <a href="mailto:clientflowmedspa@gmail.com" class="footer-email">clientflowmedspa@gmail.com</a>
+</footer>
+
+<script>
+  // Intersection observer for fade-ins
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+  // Trigger hero immediately
+  setTimeout(() => {
+    document.querySelectorAll('.hero .fade-in').forEach(el => el.classList.add('visible'));
+  }, 80);
+
+  // Form submit
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-submit');
+    btn.textContent = 'Request received — we\'ll be in touch shortly.';
+    btn.style.background = 'var(--gold)';
+    btn.disabled = true;
+  }
+
+  // Subtle nav scroll behavior
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('nav');
+    if (window.scrollY > 60) {
+      nav.style.padding = '18px 60px';
+    } else {
+      nav.style.padding = '28px 60px';
+    }
+  });
+</script>
 </body>
 </html>
