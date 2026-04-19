@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ClientFlow Elite</title>
+  <meta
+    name="description"
+    content="ClientFlow Elite helps med spas turn more inquiries into booked appointments with faster follow-up and a more polished client journey."
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <style>
+    :root {
+      --bg: #0c0d11;
+      --panel: rgba(255, 255, 255, 0.05);
+      --panel-strong: rgba(255, 255, 255, 0.08);
+      --line: rgba(255, 255, 255, 0.10);
+      --line-strong: rgba(255, 255, 255, 0.18);
+      --text: #f5f5f2;
+      --muted: #c6c6bf;
+      --soft: #a8a8a0;
+      --gold: #d9c8a2;
+      --gold-deep: #bca577;
+      --shadow: 0 20px 70px rgba(0, 0, 0, 0.35);
+      --radius-xl: 28px;
+      --radius-lg: 20px;
+      --radius-md: 14px;
+      --max: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(217, 200, 162, 0.14), transparent 30%),
+        radial-gradient(circle at top right, rgba(188, 165, 119, 0.10), transparent 25%),
+        linear-gradient(180deg, #090a0d 0%, #0e1015 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .container {
+      width: min(calc(100% - 2rem), var(--max));
+      margin: 0 auto;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(16px);
+      background: rgba(10, 11, 15, 0.72);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .nav-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      min-height: 80px;
+    }
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .brand-mark {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.22em;
+      color: var(--gold);
+      font-weight: 700;
+    }
+
+    .brand-name {
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.4rem;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-cta {
+      padding: 0.82rem 1.15rem;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #f0e2bc 0%, #c9af7f 100%);
+      color: #17140f;
+      font-weight: 700;
+      box-shadow: 0 12px 30px rgba(201, 175, 127, 0.25);
+      white-space: nowrap;
+    }
+
+    .hero {
+      padding: 6.2rem 0 3rem;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      padding: 0.48rem 0.78rem;
+      border: 1px solid rgba(217, 200, 162, 0.25);
+      border-radius: 999px;
+      color: var(--gold);
+      background: rgba(217, 200, 162, 0.08);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.03em;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      line-height: 1.02;
+      letter-spacing: -0.06em;
+      max-width: 12ch;
+    }
+
+    .hero p.lead {
+      margin: 1.2rem 0 0;
+      max-width: 62ch;
+      color: var(--muted);
+      font-size: 1.08rem;
+    }
+
+    .hero-supporting-line {
+      margin-top: 1.1rem;
+      color: var(--soft);
+      max-width: 64ch;
+      font-size: 0.98rem;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      margin-top: 1.7rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      min-height: 52px;
+      padding: 0.95rem 1.25rem;
+      border-radius: 999px;
+      font-weight: 700;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #f0e2bc 0%, #c9af7f 100%);
+      color: #17140f;
+      box-shadow: 0 15px 34px rgba(201, 175, 127, 0.25);
+    }
+
+    .btn-secondary {
+      border: 1px solid var(--line-strong);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--text);
+    }
+
+    .hero-card,
+    .glass-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.065), rgba(255,255,255,0.035));
+      border: 1px solid var(--line);
+      box-shadow: var(--shadow);
+      border-radius: var(--radius-xl);
+    }
+
+    .hero-card {
+      padding: 1.15rem;
+    }
+
+    .quick-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.85rem;
+      margin-top: 2rem;
+    }
+
+    .quick-stats .stat {
+      padding: 1rem 1rem 0.95rem;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.035);
+    }
+
+    .quick-stats .stat strong {
+      display: block;
+      color: var(--text);
+      font-size: 0.98rem;
+    }
+
+    .quick-stats .stat span {
+      color: var(--soft);
+      font-size: 0.9rem;
+    }
+
+    .phone-shell {
+      padding: 1rem;
+      border-radius: 32px;
+      background: linear-gradient(180deg, rgba(20,22,28,0.96), rgba(11,12,16,0.96));
+      border: 1px solid rgba(255,255,255,0.08);
+      max-width: 420px;
+      margin-left: auto;
+    }
+
+    .phone-top {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 0.8rem;
+    }
+
+    .phone-notch {
+      width: 110px;
+      height: 24px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.08);
+    }
+
+    .phone-screen {
+      padding: 1rem;
+      border-radius: 24px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.015)),
+        #11131a;
+      border: 1px solid rgba(255,255,255,0.06);
+      min-height: 580px;
+    }
+
+    .messages-header {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .messages-header .label {
+      display: block;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    .messages-header .date {
+      display: block;
+      margin-top: 0.2rem;
+      color: var(--soft);
+      font-size: 0.9rem;
+    }
+
+    .bubble {
+      max-width: 84%;
+      padding: 0.9rem 1rem;
+      margin-bottom: 0.8rem;
+      border-radius: 18px;
+      font-size: 0.95rem;
+      line-height: 1.45;
+    }
+
+    .bubble.received {
+      background: rgba(255,255,255,0.065);
+      border: 1px solid rgba(255,255,255,0.06);
+      color: var(--text);
+      border-top-left-radius: 8px;
+    }
+
+    .bubble.sent {
+      margin-left: auto;
+      background: linear-gradient(135deg, #efdfb9 0%, #cfb07c 100%);
+      color: #17140f;
+      border-top-right-radius: 8px;
+      font-weight: 600;
+    }
+
+    .section {
+      padding: 2rem 0 1.5rem;
+    }
+
+    .section + .section {
+      padding-top: 3.3rem;
+    }
+
+    .section-kicker {
+      color: var(--gold);
+      font-size: 0.84rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    h2 {
+      margin: 0;
+      font-size: clamp(2rem, 4.2vw, 3.25rem);
+      line-height: 1.08;
+      letter-spacing: -0.05em;
+    }
+
+    .section-intro {
+      margin-top: 1rem;
+      max-width: 64ch;
+      color: var(--muted);
+      font-size: 1.03rem;
+    }
+
+    .benefit-strip {
+      margin: 1.5rem 0 0.5rem;
+    }
+
+    .benefit-strip .glass-card {
+      padding: 1rem 1.25rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.8rem;
+    }
+
+    .benefit-chip {
+      padding: 0.85rem 0.95rem;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      text-align: center;
+      color: var(--text);
+      background: rgba(255,255,255,0.02);
+      font-weight: 600;
+    }
+
+    .benefits-grid,
+    .testimonial-grid,
+    .comparison-grid,
+    .cta-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .benefits-grid {
+      grid-template-columns: repeat(3, 1fr);
+      margin-top: 1.6rem;
+    }
+
+    .card {
+      padding: 1.35rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      box-shadow: var(--shadow);
+    }
+
+    .card-number {
+      display: inline-flex;
+      min-width: 48px;
+      min-height: 48px;
+      align-items: center;
+      justify-content: center;
+      border-radius: 14px;
+      background: rgba(217, 200, 162, 0.12);
+      color: var(--gold);
+      font-weight: 800;
+      margin-bottom: 1rem;
+    }
+
+    .card h3 {
+      margin: 0 0 0.55rem;
+      font-size: 1.14rem;
+      letter-spacing: -0.03em;
+    }
+
+    .card p,
+    .card li,
+    .testimonial-card blockquote,
+    .cta-list li {
+      color: var(--muted);
+    }
+
+    .comparison-grid {
+      grid-template-columns: repeat(2, 1fr);
+      margin-top: 1.6rem;
+    }
+
+    .comparison-card {
+      padding: 1.4rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.035);
+      box-shadow: var(--shadow);
+    }
+
+    .comparison-card.featured {
+      border-color: rgba(217, 200, 162, 0.3);
+      background:
+        linear-gradient(180deg, rgba(217, 200, 162, 0.10), rgba(255,255,255,0.04));
+    }
+
+    .comparison-label {
+      display: inline-block;
+      margin-bottom: 0.7rem;
+      font-size: 0.85rem;
+      color: var(--gold);
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .comparison-card h3 {
+      margin: 0 0 0.8rem;
+      font-size: 1.4rem;
+      letter-spacing: -0.04em;
+    }
+
+    .comparison-card ul,
+    .cta-list {
+      margin: 0;
+      padding-left: 1.1rem;
+    }
+
+    .comparison-card li,
+    .cta-list li {
+      margin-bottom: 0.5rem;
+    }
+
+    .testimonial-grid {
+      grid-template-columns: repeat(2, 1fr);
+      margin-top: 1.6rem;
+    }
+
+    .testimonial-card {
+      padding: 1.4rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      box-shadow: var(--shadow);
+    }
+
+    .testimonial-card blockquote {
+      margin: 0 0 1rem;
+      font-size: 1rem;
+    }
+
+    .testimonial-author {
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .cta-grid {
+      grid-template-columns: 1fr 0.9fr;
+      align-items: start;
+      margin-top: 1.7rem;
+    }
+
+    .cta-panel {
+      padding: 1.45rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.04);
+      box-shadow: var(--shadow);
+    }
+
+    .cta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 1.2rem;
+    }
+
+    .contact-line {
+      margin-top: 1rem;
+      color: var(--soft);
+      font-size: 0.94rem;
+    }
+
+    form {
+      display: grid;
+      gap: 0.85rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.85rem;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      padding: 0.95rem 1rem;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      font: inherit;
+      outline: none;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #a5a49b;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: rgba(217, 200, 162, 0.5);
+      box-shadow: 0 0 0 4px rgba(217, 200, 162, 0.08);
+    }
+
+    textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    .submit-note,
+    .form-status {
+      font-size: 0.92rem;
+      color: var(--soft);
+    }
+
+    .form-status.success {
+      color: #d6efbe;
+    }
+
+    .form-status.error {
+      color: #f1b7b7;
+    }
+
+    .site-footer {
+      padding: 3rem 0 4rem;
+      color: var(--soft);
+      text-align: center;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 960px) {
+      .hero-grid,
+      .cta-grid,
+      .comparison-grid,
+      .testimonial-grid,
+      .benefits-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .phone-shell {
+        margin: 0 auto;
+      }
+
+      .benefit-strip .glass-card,
+      .quick-stats,
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .nav-wrap {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 1rem 0;
+      }
+
+      .nav-links {
+        gap: 0.9rem;
+      }
+
+      .hero {
+        padding-top: 4.4rem;
+      }
+
+      .btn,
+      .nav-cta {
+        width: 100%;
+      }
+
+      .hero-actions,
+      .cta-actions {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="#top" class="brand" aria-label="ClientFlow Elite home">
+        <span class="brand-mark">ClientFlow Elite</span>
+        <span class="brand-name">Elevated booking and follow-up for med spas</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Primary">
+        <a href="#benefits">Benefits</a>
+        <a href="#experience">Experience</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="#book">Book a Private Demo</a>
+      </nav>
+
+      <a class="nav-cta" href="https://calendly.com/clientflowmedspa" target="_blank" rel="noopener noreferrer">
+        Book a Private Demo
+      </a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="eyebrow">Elevated booking and follow-up for modern med spas</div>
+          <h1>Turn more inquiries into booked appointments — with a client experience that feels polished from the first touch.</h1>
+
+          <p class="lead">
+            ClientFlow Elite helps med spas respond faster, reduce missed opportunities, and create a smoother booking experience without adding more work to the front desk.
+          </p>
+
+          <div class="hero-actions">
+            <a class="btn btn-primary" href="https://calendly.com/clientflowmedspa" target="_blank" rel="noopener noreferrer">
+              Book a Private Demo
+            </a>
+            <a class="btn btn-secondary" href="#experience">See the Client Journey</a>
+          </div>
+
+          <p class="hero-supporting-line">
+            Designed for med spas that want to grow with a more polished system — whether you’re a single-location practice or building a larger brand.
+          </p>
+
+          <div class="quick-stats" aria-label="Key benefits">
+            <div class="stat">
+              <strong>Fast follow-up</strong>
+              <span>Respond sooner while interest is still high.</span>
+            </div>
+            <div class="stat">
+              <strong>Fewer lost leads</strong>
+              <span>Reduce drop-off caused by slow replies and missed steps.</span>
+            </div>
+            <div class="stat">
+              <strong>Polished client journey</strong>
+              <span>Create a smoother experience without more front desk pressure.</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <div class="phone-shell">
+            <div class="phone-top">
+              <div class="phone-notch"></div>
+            </div>
+
+            <div class="phone-screen">
+              <div class="messages-header">
+                <span class="label">Messages</span>
+                <span class="date">Today</span>
+              </div>
+
+              <div class="bubble received">Hi Sarah, thank you for reaching out about lip filler.</div>
+              <div class="bubble received">We have an opening tomorrow at 3:00 PM. Would you like me to reserve it for you?</div>
+              <div class="bubble sent">Yes, please.</div>
+              <div class="bubble received">Perfect — you’re all set. We’ll send your confirmation and reminder shortly.</div>
+              <div class="bubble received">If you need anything before your appointment, just reply here.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="benefit-strip">
+      <div class="container">
+        <div class="glass-card">
+          <div class="benefit-chip">Fast follow-up</div>
+          <div class="benefit-chip">Fewer lost leads</div>
+          <div class="benefit-chip">A more polished client journey</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <p class="section-kicker">Client experience, elevated</p>
+        <h2>Polished communication. Real booking momentum.</h2>
+        <p class="section-intro">
+          Built to feel refined enough for established practices and simple enough for growing med spas that want a better way to follow up.
+        </p>
+      </div>
+    </section>
+
+    <section id="benefits" class="section">
+      <div class="container">
+        <h2>What changes with ClientFlow Elite</h2>
+        <p class="section-intro">
+          This is not just automation. It is a faster, smoother, more professional path from first inquiry to confirmed appointment.
+        </p>
+
+        <div class="benefits-grid">
+          <article class="card">
+            <div class="card-number">01</div>
+            <h3>Leads are answered faster</h3>
+            <p>Missed calls and delayed replies stop quietly costing you appointments.</p>
+          </article>
+
+          <article class="card">
+            <div class="card-number">02</div>
+            <h3>Booking feels easier</h3>
+            <p>Interested clients are guided toward the next step with less friction, less delay, and more confidence.</p>
+          </article>
+
+          <article class="card">
+            <div class="card-number">03</div>
+            <h3>Your brand feels more elevated</h3>
+            <p>Every touchpoint feels more polished, responsive, and aligned with the kind of experience today’s clients expect.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience" class="section">
+      <div class="container">
+        <h2>The booking experience</h2>
+        <p class="section-intro">
+          What matters most is what happens after someone shows interest. That is where bookings are often won or lost.
+        </p>
+
+        <div class="comparison-grid">
+          <article class="comparison-card">
+            <span class="comparison-label">Without a structured follow-up system</span>
+            <h3>Interest fades quickly</h3>
+            <ul>
+              <li>A call is missed.</li>
+              <li>A web inquiry sits unanswered.</li>
+              <li>Follow-up happens late or not at all.</li>
+              <li>The potential client moves on.</li>
+            </ul>
+          </article>
+
+          <article class="comparison-card featured">
+            <span class="comparison-label">With ClientFlow Elite</span>
+            <h3>Interest is guided toward a booking</h3>
+            <ul>
+              <li>The inquiry is acknowledged quickly.</li>
+              <li>The client is guided toward the next step.</li>
+              <li>Reminders reduce drop-off and no-shows.</li>
+              <li>The journey feels smoother, more polished, and more consistent.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="testimonials" class="section">
+      <div class="container">
+        <h2>Testimonials</h2>
+        <p class="section-intro">
+          What med spa owners and practice leaders value most is a smoother experience, faster follow-up, and fewer missed opportunities.
+        </p>
+
+        <div class="testimonial-grid">
+          <article class="testimonial-card">
+            <blockquote>
+              “The biggest difference for us was speed. Clients were hearing back faster, the experience felt more polished, and booking became much more consistent.”
+            </blockquote>
+            <div class="testimonial-author">— Med Spa Owner</div>
+          </article>
+
+          <article class="testimonial-card">
+            <blockquote>
+              “It helped us create a smoother client journey without adding more pressure to the front desk. It felt more elevated almost immediately.”
+            </blockquote>
+            <div class="testimonial-author">— Aesthetic Practice Director</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="book" class="section">
+      <div class="container">
+        <h2>Book a private demo</h2>
+        <p class="section-intro">
+          See how ClientFlow Elite can support your booking flow, follow-up process, and overall client experience — in a short private walkthrough tailored to your practice.
+        </p>
+
+        <div class="cta-grid">
+          <div class="cta-panel">
+            <ul class="cta-list">
+              <li>See how missed inquiries can become real appointments.</li>
+              <li>Explore a booking experience that feels polished, responsive, and easy to manage.</li>
+              <li>Understand how to improve follow-up without adding extra front desk pressure.</li>
+            </ul>
+
+            <p class="contact-line">
+              Whether you are refining an established client journey or simply looking to improve follow-up, ClientFlow Elite is designed to make growth feel more organized and more polished.
+            </p>
+
+            <div class="cta-actions">
+              <a class="btn btn-primary" href="https://calendly.com/clientflowmedspa" target="_blank" rel="noopener noreferrer">
+                Book via Calendly
+              </a>
+              <a class="btn btn-secondary" href="mailto:clientflowmedspa@gmail.com">
+                Email Instead
+              </a>
+            </div>
+
+            <p class="contact-line">Prefer email? clientflowmedspa@gmail.com</p>
+          </div>
+
+          <div class="cta-panel">
+            <h3 style="margin-top:0; font-size:1.5rem; letter-spacing:-0.04em;">Request a private walkthrough</h3>
+            <p class="section-intro" style="margin-top:0.5rem; font-size:0.98rem;">
+              Share your details and we’ll follow up with next steps shortly.
+            </p>
+
+            <form id="lead-form">
+              <div class="form-row">
+                <input type="text" name="from_name" placeholder="Full name" required />
+                <input type="text" name="company" placeholder="Business name" required />
+              </div>
+
+              <div class="form-row">
+                <input type="email" name="reply_to" placeholder="Email address" required />
+                <input type="tel" name="phone" placeholder="Phone number" required />
+              </div>
+
+              <textarea name="message" placeholder="What would you like help improving?" required></textarea>
+
+              <button type="submit" class="btn btn-primary">Send Request</button>
+              <div class="submit-note">This form is connected with EmailJS placeholders based on your previous setup details.</div>
+              <div id="form-status" class="form-status" aria-live="polite"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      ClientFlow Elite — a more polished path from inquiry to appointment.
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      emailjs.init({
+        publicKey: "t_PbGBW1_sIsD_bcO"
+      });
+
+      const form = document.getElementById("lead-form");
+      const status = document.getElementById("form-status");
+
+      if (!form) return;
+
+      form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        status.textContent = "Sending...";
+        status.className = "form-status";
+
+        try {
+          await emailjs.sendForm(
+            "service_tqi0gjg",
+            "template_ts4ddha",
+            form
+          );
+
+          await emailjs.send(
+            "service_tqi0gjg",
+            "template_eavbc4k",
+            {
+              from_name: form.from_name.value,
+              company: form.company.value,
+              reply_to: form.reply_to.value,
+              phone: form.phone.value,
+              message: form.message.value
+            }
+          );
+
+          form.reset();
+          status.textContent = "Request sent successfully. You’ll hear back shortly.";
+          status.className = "form-status success";
+        } catch (error) {
+          console.error(error);
+          status.textContent = "Something went wrong while sending your request. Please email clientflowmedspa@gmail.com instead.";
+          status.className = "form-status error";
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
